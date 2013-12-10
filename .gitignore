@@ -6,3 +6,5 @@ selenium-server.jar
 vendor
 build
 nbproject
+node_modules
+npm-debug.log

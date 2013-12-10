@@ -4,7 +4,6 @@ default:
     bootstrap:  %behat.paths.base%/tests/behat/bootstrap
   extensions:
     Behat\MinkExtension\Extension:
-      base_url: ''
       goutte:    ~
       selenium2: ~
 

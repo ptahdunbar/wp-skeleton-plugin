@@ -67,27 +67,29 @@
                  cachefile="${lint.php.cachefile}" />
     </target>
 
+	<target name="phpunit-setup">
+		<exec command="${project.basedir}/tests/setup.sh"
+		      passthru="true"
+		      checkreturn="true" />
+	</target>
+
     <target name="tests"
-            depends="lint,unit-tests,integration-tests,acceptance-tests,behat"
+            depends="lint,phpunit-setup,unit-tests,integration-tests,acceptance-tests,behat"
             description="Tests ALL THE THINGS!" />
 
-    <target name="unit-tests" description="Run unit tests with PHPUnit" depends="lint">
+    <target name="unit-tests" description="Run unit tests with PHPUnit" depends="lint,phpunit-setup">
         <exec command="${composer.bin_path}/phpunit -c tests/phpunit/unit.xml"
               passthru="true"
               checkreturn="true" />
     </target>
 
-    <target name="integration-tests" description="Run integration tests with PHPUnit" depends="lint">
+    <target name="integration-tests" description="Run integration tests with PHPUnit" depends="lint,phpunit-setup">
         <exec command="${composer.bin_path}/phpunit -c tests/phpunit/integration.xml"
               passthru="true"
               checkreturn="true" />
     </target>
 
-    <target name="acceptance-tests" description="Run acceptance tests with PHPUnit" depends="lint">
-        <exec command="${composer.bin_path}/phpunit -c tests/phpunit/acceptance.xml"
-              passthru="true"
-              checkreturn="true" />
-    </target>
+    <target name="acceptance-tests" depends="behat" />
 
     <target name="behat" description="Run acceptance tests with Behat" depends="lint">
         <exec command="${composer.bin_path}/behat"

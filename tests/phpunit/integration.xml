@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-	bootstrap="integration/bootstrap.php"
-	backupGlobals="false"
+    bootstrap="integration/bootstrap.php"
+    backupGlobals="false"
     backupStaticAttributes="false"
     colors="true"
     verbose="true"
