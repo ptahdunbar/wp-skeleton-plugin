@@ -1,8 +1,6 @@
 <?php
 
-namespace WPSkeletonPluginTest;
-
-class AutoloadTest extends \PHPUnit_Framework_TestCase
+class UnitTest extends PHPUnit_Framework_TestCase
 {
     public function testThatItsTestingTime()
     {

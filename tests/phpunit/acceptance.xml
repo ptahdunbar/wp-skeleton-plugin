@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	bootstrap="acceptance/bootstrap.php"
+	backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="true"
+    verbose="true"
+>
+    <testsuites>
+        <testsuite name="acceptance">
+            <directory suffix="Test.php">acceptance/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

@@ -1,0 +1,26 @@
+default:
+  paths:
+    features:   %behat.paths.base%/tests/behat/features
+    bootstrap:  %behat.paths.base%/tests/behat/bootstrap
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: ''
+      goutte:    ~
+      selenium2: ~
+
+development:
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: ''
+testing:
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: ''
+staging:
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: ''
+production:
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: ''
