@@ -1,28 +1,36 @@
 {
-	"name": "ptahdunbar/wp-skeleton-plugin",
+    "name": "ptahdunbar/wp-skeleton-plugin",
+    "homepage": "https://github.com/ptahdunbar/wp-skeleton-plugin",
+    "description": "A walking skeleton WordPress plugin. -_O",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0+",
 
-	"authors": [
-		{
-			"name": "Ptah Dunbar",
-			"email": "yarr@piratedunbar.com"
-		}
-	],
+    "keywords": [
+        "WordPress", "plugins", "themes", "php", "skeleton"
+    ],
 
-	"require": {
-		"php": ">=5.4"
-	},
+    "authors": [
+        {
+            "name": "Ptah Dunbar",
+            "email": "yarr@piratedunbar.com"
+        }
+    ],
 
-	"require-dev": {
-		"phing/phing": "dev-master",
-		"phpunit/phpunit": "3.7.*",
-		"phpunit/dbunit": "1.2.*@dev",
-		"phpunit/phpunit-selenium" : "*",
-		"whatthejeff/nyancat-phpunit-resultprinter": "~1.1",
-		"behat/behat": "2.4.*@stable",
-		"behat/mink": "1.4.*@stable",
-		"behat/mink-extension": "*",
-		"behat/mink-goutte-driver": "*",
-		"behat/mink-selenium2-driver": "*",
-		"facebook/webdriver": "*"
-	}
+    "require": {
+        "php": ">=5.4"
+    },
+
+    "require-dev": {
+        "phing/phing": "dev-master",
+        "phpunit/phpunit": "3.7.*",
+        "phpunit/dbunit": "1.2.*@dev",
+        "phpunit/phpunit-selenium" : "*",
+        "whatthejeff/nyancat-phpunit-resultprinter": "~1.1",
+        "behat/behat": "2.4.*@stable",
+        "behat/mink": "1.4.*@stable",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver": "*",
+        "behat/mink-selenium2-driver": "*",
+        "facebook/webdriver": "*"
+    }
 }

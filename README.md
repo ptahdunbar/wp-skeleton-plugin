@@ -1,8 +1,20 @@
-# WP Skeleton Plugin project - WIP.
+# WP Skeleton Plugin
 
-This is simply a skeleton repo for a WordPress plugin. Use it to jump-start your WordPress plugin, or fork it and customize it to your own liking!
+> This is a work in progress. Very alpha, subject to sweeping changes and random intervals :)
 
 ## Installation
+
+#### Via composer
+
+```
+{
+    "require" : {
+        "ptahdunbar/wp-skeleton-plugin" : "dev-master"
+    }
+}
+```
+
+#### Via git
 
 ```
 git clone git@github.com:ptahdunbar/wp-skeleton-plugin.git
