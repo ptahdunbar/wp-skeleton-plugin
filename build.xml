@@ -110,11 +110,13 @@
     </fileset>
 
     <fileset id="src.js" dir="${project.basedir}">
-        <include name="src/**.js" />
+        <include name="js/**.js" />
+        <include name="js/**/**.js" />
         <include name="tests/qunit/**.js" />
     </fileset>
 
     <fileset id="src.css" dir="${project.basedir}">
-        <include name="src/**.css" />
+        <include name="css/**.css" />
+        <include name="css/**/**.css" />
     </fileset>
 </project>
