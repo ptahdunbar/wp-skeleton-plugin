@@ -1,4 +1,8 @@
 .DS_Store
 .idea
-vendor/
-bin/
+.phplint.cache
+composer.phar
+selenium-server.jar
+vendor
+build
+nbproject
