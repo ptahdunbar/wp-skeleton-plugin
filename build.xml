@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="WP Skeleton Plugin" default="build" basedir=".">
+
+    <property name="env" value="development" />
+    <property name="composer.exec" value="composer" />
+    <property name="composer.bin_path" value="${project.basedir}/vendor/bin" />
+    <property name="lint.php.cachefile" value="${project.basedir}/.phplint.cache" />
+    <property name="selenium_path" value="" />
+
+    <target name="build"
+            depends="tests"
+            description="Primary target used to invoke all main targets." />
+
+    <target name="init"
+            depends="load-properties,composer-install"
+            description="Load the environment properties" />
+
+    <target name="load-properties">
+        <!-- Override default properties if custom build.properties exists -->
+        <available property="project.properties.file"
+                   file="${project.basedir}/build.properties"
+                   value="${project.basedir}/build.properties" />
+
+        <property file="${project.properties.file}" override="true" />
+        <echo msg="Build properties loaded!" />
+    </target>
+
+    <target name="composer-download">
+        <exec command="php -r &quot;eval('?>'.file_get_contents('https://getcomposer.org/installer'));&quot;"
+              passthru="true"
+              checkreturn="true" />
+        <property name="composer.exec" value="${project.basedir}/composer.phar" override="true" />
+    </target>
+
+    <target name="configure-composer-install-cmd">
+        <if>
+            <equals casesensitive="false" arg1="${env}" arg2="production" />
+            <then>
+                <property name="composer.install" value="${composer.exec} install --no-dev" />
+            </then>
+            <else>
+                <property name="composer.install" value="${composer.exec} install" />
+            </else>
+        </if>
+    </target>
+
+    <target name="composer-install" depends="configure-composer-install-cmd">
+        <exec command="${composer.install}"
+              passthru="true"
+              checkreturn="true" />
+    </target>
+
+    <target name="lint"
+            depends="init,lint-php"
+            description="Check all files for syntax errors." />
+
+    <target name="lint-php">
+        <foreach param="filename" absparam="absfilename" target="lint-php-linter">
+            <fileset refid="src.php" />
+        </foreach>
+    </target>
+
+    <target name="lint-php-linter">
+        <phplint
+                file="${absfilename}"
+                haltonfailure="true"
+                deprecatedAsError="true"
+                cachefile="${lint.php.cachefile}" />
+    </target>
+
+    <target name="tests"
+            depends="lint,unit-tests,integration-tests,acceptance-tests"
+            description="Tests ALL THE THINGS!" />
+
+    <target name="unit-tests" description="Run unit tests with PHPUnit" depends="lint">
+        <exec command="${composer.bin_path}/phpunit -c tests/phpunit/unit.xml"
+              passthru="true"
+              checkreturn="true" />
+    </target>
+
+    <target name="integration-tests" description="Run integration tests with PHPUnit" depends="lint">
+        <exec command="${composer.bin_path}/phpunit -c tests/phpunit/integration.xml"
+              passthru="true"
+              checkreturn="true" />
+    </target>
+
+    <target name="acceptance-tests" description="Run acceptance tests with PHPUnit" depends="lint">
+        <exec command="${composer.bin_path}/phpunit -c tests/phpunit/acceptance.xml"
+              passthru="true"
+              checkreturn="true" />
+    </target>
+
+    <target name="selenium-download">
+        <exec command='curl "http://selenium.googlecode.com/files/selenium-server-standalone-2.38.0.jar" -o ${project.basedir}/selenium-server.jar'
+              passthru="true"
+              checkreturn="true" />
+        <echo>Run this command to start selenium:
+            java -jar ${project.basedir}/selenium-server.jar
+        </echo>
+    </target>
+
+    <target name="selenium-stop">
+        <exec command='curl "http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer"' checkreturn="true" />
+    </target>
+
+    <fileset id="src.php" dir="${project.basedir}">
+        <include name="includes/**.php" />
+        <include name="tests/behat/**/**.php" />
+        <include name="tests/phpunit/**/**.php" />
+    </fileset>
+
+    <fileset id="src.js" dir="${project.basedir}">
+        <include name="src/**.js" />
+        <include name="tests/qunit/**.js" />
+    </fileset>
+
+    <fileset id="src.css" dir="${project.basedir}">
+        <include name="src/**.css" />
+    </fileset>
+</project>
