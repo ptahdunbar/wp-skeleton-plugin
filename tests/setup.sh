@@ -83,7 +83,7 @@ mv $WP_TESTS_DIR/wp-tests-config.tmp.php $WP_TESTS_DIR/wp-tests-config.php
 sed -e "s/yourpasswordhere/"$DB_PASS"/g" $WP_TESTS_DIR/wp-tests-config.php > $WP_TESTS_DIR/wp-tests-config.tmp.php
 mv $WP_TESTS_DIR/wp-tests-config.tmp.php $WP_TESTS_DIR/wp-tests-config.php
 
-sed -e "s:define( 'ABSPATH', dirname( __FILE__ ) . '/src/' );:define( 'ABSPATH', getenv( 'WP_CORE_DIR' ) . '/' );:g" $WP_TESTS_DIR/wp-tests-config.php > $WP_TESTS_DIR/wp-tests-config.tmp.php
+sed -e "s-define( 'ABSPATH', dirname( __FILE__ ) . '/src/' );-getenv( 'WP_CORE_DIR' ) ? getenv( 'WP_CORE_DIR' ) . '/' : dirname( __FILE__ ) . '/src/'-g" $WP_TESTS_DIR/wp-tests-config.php > $WP_TESTS_DIR/wp-tests-config.tmp.php
 mv $WP_TESTS_DIR/wp-tests-config.tmp.php $WP_TESTS_DIR/wp-tests-config.php
 
 sed "s:// define( 'WP_TESTS_MULTISITE', true );:define( 'WP_TESTS_MULTISITE', (bool) getenv( 'WP_MULTISITE' ) );:g" $WP_TESTS_DIR/wp-tests-config.php > $WP_TESTS_DIR/wp-tests-config.tmp.php

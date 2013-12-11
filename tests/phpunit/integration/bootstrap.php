@@ -11,13 +11,12 @@
  *
  * export WP_TESTS_DIR=/tmp/wordpress/tests
  */
-if ( getenv('WP_TESTS_DIR') ) {
-    $wp_test_dir = getenv('WP_TESTS_DIR');
-} else {
-    $wp_test_dir = '../../../../../';
+if ( ! $wp_test_dir = getenv('WP_TESTS_DIR') ) {
 
-    if ( ! is_dir($wp_test_dir) && ! is_dir($wp_test_dir . '/phpunit') ) {
-        die('Fatal Error: Could not find the WordPress tests directory.');
+    $wp_test_dir = realpath('../../../../');
+
+    if ( ! file_exists($wp_test_dir) || ! file_exists($wp_test_dir . '/tests') ) {
+        die("Fatal Error: Could not find the WordPress tests directory.\n");
     }
 }
 
@@ -29,7 +28,7 @@ require_once $wp_test_dir . '/tests/phpunit/includes/functions.php';
 /**
  * Composer Autoloader
  */
-require_once 'vendor/autoload.php';
+require_once getcwd() . '/vendor/autoload.php';
 
 /**
  * Define custom settings in bootstrap-config.php.
