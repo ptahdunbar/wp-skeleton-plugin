@@ -18,37 +18,23 @@ use Behat\Gherkin\Node\PyStringNode,
 
 class TestContext extends BehatContext
 {
-    protected $output;
+    protected $output = '';
 
     /**
-     * @When /^I run `behat ([^"]*)`$/
+     * @When /^I run `([^"]*)`$/
      */
-    public function iRunBehatHelp($arg1)
+    public function iRunBehatCommand($command)
     {
-        exec("./vendor/bin/behat {$arg1}", $this->output);
-
-        $this->output = implode(' ', $this->output);
+        $this->output = shell_exec("$command");
     }
 
     /**
      * @Then /^I should see "([^"]*)", "([^"]*)", and "([^"]*)"$/
      */
-    public function iShouldSeeUsageArgumentsAnd($arg1, $arg2, $arg3)
+    public function iShouldSeeStringOutput($arg1, $arg2, $arg3)
     {
         foreach ([$arg1, $arg2, $arg3] as $arg) {
             assertContains($arg, $this->output, sprintf('%s not found in output', $arg));
         }
-    }
-
-    /**
-     * @Then /^I should see "([^"]*)" skipped scenarios$/
-     */
-    public function iShouldSeeSkippedScenarios($count)
-    {
-        assertContains(
-            "{$count} scenarios ({$count} skipped)",
-            $this->output,
-            sprintf('Invalid skipped scenerios. Should only skip %s.', $count)
-        );
     }
 }

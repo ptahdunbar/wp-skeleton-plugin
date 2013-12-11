@@ -19,6 +19,8 @@ require_once 'vendor/autoload.php';
 require_once 'PHPUnit/Autoload.php';
 require_once 'PHPUnit/Framework/Assert/Functions.php';
 
+require_once 'tests/behat/wordpress-init.php';
+
 class FeatureContext extends BehatContext
 {
     use MinkDictionary;
