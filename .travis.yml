@@ -12,6 +12,6 @@ before_script:
     - composer install
     - echo "build.db_pass=" >> build.properties
     - vendor/bin/phing tests-init
-    - cat /tmp/wordpress/wp-tests-config.php
+    - cat /tmp/wordpress-tests/wp-tests-config.php
 
 script: pwd
