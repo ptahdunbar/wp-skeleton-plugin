@@ -8,6 +8,8 @@
  * Text Domain : wp-skeleton-plugin
  * Domain Path : /languages
  * License : GPL2 or later
+ *
+ * @package WPSkeletonPlugin
  */
 
 /** Load composer */
