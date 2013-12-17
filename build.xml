@@ -228,10 +228,8 @@
                 <available file="${build.copy_path}" />
             </not>
             <then>
-                <echo>Copy ${dir.name} to ${build.copy_path}</echo>
-                <copy todir="${build.copy_path}">
-                    <fileset dir="${project.basedir}" />
-                </copy>
+                <echo>Symlink ${dir.name} to ${build.copy_path}</echo>
+                <symlink target="${project.basedir}" link="${build.copy_path}" />
             </then>
             <else>
                 <echo msg="Skipping build copy. Path already exists: ${build.copy_path}" />
