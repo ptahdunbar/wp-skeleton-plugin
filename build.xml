@@ -187,11 +187,11 @@
             <istrue value="${build.wp_multisite}" />
             <then>
                 <echo msg="Multisite Enabled" />
-                <exec command="sed -i '' &quot;s-// define( 'WP_TESTS_MULTISITE', true );-define( 'WP_TESTS_MULTISITE', true );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+                <exec command="sed -i '' &quot;s-// define( 'WP_TESTS_MULTISITE', true );-define( 'WP_TESTS_MULTISITE', true );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" />
             </then>
             <else>
                 <echo msg="Multisite based on environment variable: WP_MULTISITE" />
-                <exec command="sed -i '' &quot;s-// define( 'WP_TESTS_MULTISITE', true );-define( 'WP_TESTS_MULTISITE', (bool) getenv( 'WP_MULTISITE' ) );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+                <exec command="sed -i '' &quot;s-// define( 'WP_TESTS_MULTISITE', true );-define( 'WP_TESTS_MULTISITE', (bool) getenv( 'WP_MULTISITE' ) );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" />
             </else>
         </if>
     </target>
