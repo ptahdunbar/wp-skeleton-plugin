@@ -22,3 +22,8 @@ before_script:
     - vendor/bin/phing tests-init
 
 script: vendor/bin/phing
+
+branches:
+  only:
+    - master
+    - develop
