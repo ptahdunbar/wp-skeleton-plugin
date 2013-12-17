@@ -22,7 +22,7 @@ git clone git@github.com:ptahdunbar/wp-skeleton-plugin.git
 
 ## Features
 
-* Supports [PHPUnit](phpunit.de/manual/) and [Behat](http://behat.org/) for automated testing.
+* Supports [PHPUnit](http://phpunit.de/manual/) and [Behat](http://behat.org/) for automated testing.
 * Supports [Travis CI](https://travis-ci.org/) for continuous integration.
 * Supports [Phing](http://www.phing.info/) for task automation.
 * Supports [Composer](http://getcomposer.org/) and [Bower](http://bower.io/) for vendoring dependencies.
