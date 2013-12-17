@@ -1,4 +1,4 @@
-# WP Skeleton Plugin
+# WP Skeleton Plugin [![Build Status](https://travis-ci.org/ptahdunbar/wp-skeleton-plugin.png?branch=develop)](https://travis-ci.org/ptahdunbar/wp-skeleton-plugin)
 
 > This is a work in progress. Very alpha, subject to sweeping changes at random intervals :)
 
