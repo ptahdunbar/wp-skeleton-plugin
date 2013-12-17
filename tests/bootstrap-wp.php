@@ -13,7 +13,7 @@
  */
 if ( ! $wp_test_dir = getenv('WP_TESTS_DIR') ) {
 
-    $wp_test_dir = realpath('../../../../');
+    $wp_test_dir = '/tmp/wordpress-tests';
 
     if ( ! file_exists($wp_test_dir) || ! file_exists($wp_test_dir . '/tests') ) {
         die("Fatal Error: Could not find the WordPress tests directory.\n");

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b52d053cad4c07ef43950b19423b783e",
+    "hash": "c5284f7e6a8663d16c6509b993bfd9b6",
     "packages": [
 
     ],
@@ -765,12 +765,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phingofficial/phing.git",
-                "reference": "bc0d217dfeb7a9e000a07eed716c548b156d7f52"
+                "reference": "1113b781fd931a63ea87fe0f2ee6be33e126a011"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phingofficial/phing/zipball/bc0d217dfeb7a9e000a07eed716c548b156d7f52",
-                "reference": "bc0d217dfeb7a9e000a07eed716c548b156d7f52",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/1113b781fd931a63ea87fe0f2ee6be33e126a011",
+                "reference": "1113b781fd931a63ea87fe0f2ee6be33e126a011",
                 "shasum": ""
             },
             "require": {
@@ -809,7 +809,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2013-12-09 20:45:51"
+            "time": "2013-12-12 13:48:30"
         },
         {
             "name": "phpunit/dbunit",
@@ -1448,7 +1448,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v2.3.7",
+            "version": "v2.3.8",
             "target-dir": "Symfony/Component/CssSelector",
             "source": {
                 "type": "git",
@@ -1710,17 +1710,17 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v2.3.7",
+            "version": "v2.3.8",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "a175521f680b178e63c5d0ab87c6b046c0990c3f"
+                "reference": "fc0fbd5a4eec06cad631311726e7d939e770d82d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/a175521f680b178e63c5d0ab87c6b046c0990c3f",
-                "reference": "a175521f680b178e63c5d0ab87c6b046c0990c3f",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/fc0fbd5a4eec06cad631311726e7d939e770d82d",
+                "reference": "fc0fbd5a4eec06cad631311726e7d939e770d82d",
                 "shasum": ""
             },
             "require": {
@@ -1753,7 +1753,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-19 09:45:20"
+            "time": "2013-11-25 14:49:41"
         },
         {
             "name": "symfony/process",
@@ -2078,9 +2078,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phing/phing": 20,
-        "phpunit/dbunit": 20,
-        "behat/behat": 0,
-        "behat/mink": 0
+        "phpunit/dbunit": 20
     },
     "platform": {
         "php": ">=5.4"

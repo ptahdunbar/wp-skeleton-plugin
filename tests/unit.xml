@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    bootstrap="unit/bootstrap.php"
+    bootstrap="../vendor/autoload.php"
     backupGlobals="false"
     backupStaticAttributes="false"
     colors="true"
@@ -10,7 +10,7 @@
 >
     <testsuites>
         <testsuite name="unit">
-            <directory suffix="Test.php">unit/</directory>
+            <directory suffix="Test.php">phpunit/unit/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

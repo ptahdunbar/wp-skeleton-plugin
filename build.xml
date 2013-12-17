@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="WP Skeleton Theme" default="build" basedir=".">
+<project name="WP Skeleton Plugin" default="build" basedir=".">
 
     <property name="env" value="development" />
     <property name="composer.exec" value="composer" />
-    <property name="composer.bin_path" value="${project.basedir}/vendor/bin" />
-    <property name="lint.php.cachefile" value="${project.basedir}/.phplint.cache" />
-    <property name="selenium_path" value="" />
+    <property name="composer.bin" value="./vendor/bin" />
+    <property name="phplint.cachefile" value="${project.basedir}/.phplint.cache" />
+    <property name="selenium.path" value="${project.basedir}/selenium-server.jar" />
+
+    <property name="build.wp_content" value="wp-content" />
+    <property name="build.wp_version" value="3.8-branch" />
+    <property name="build.db_host" value="localhost" />
+    <property name="build.db_user" value="root" />
+    <property name="build.db_pass" value="root" />
+    <property name="build.wp_core_repo" value="git://github.com/WordPress/WordPress.git" />
+    <property name="build.wp_core_path" value="/tmp/wordpress" />
+    <property name="build.wp_tests_path" value="/tmp/wordpress-tests" />
+    <property name="build.wp_tests_db" value="wordpress_tests" />
+    <property name="build.wp_tests_repo" value="http://develop.svn.wordpress.org/trunk/" />
+    <property name="build.wp_multisite" value="false" />
+    <property name="build.type" value="plugin" />
+    <property name="mysql.exec" value="mysql" />
 
     <target name="build"
             depends="tests"
             description="Primary target used to invoke all main targets." />
 
     <target name="init"
-            depends="load-properties,composer-install"
+            depends="load-properties"
             description="Load the environment properties" />
 
     <target name="load-properties">
@@ -64,50 +78,155 @@
         <phplint file="${absfilename}"
                  haltonfailure="true"
                  deprecatedAsError="true"
-                 cachefile="${lint.php.cachefile}" />
+                 cachefile="${phplint.cachefile}" />
     </target>
 
-	<target name="phpunit-setup">
-		<exec command="${project.basedir}/tests/setup.sh"
-		      passthru="true"
-		      checkreturn="true" />
-	</target>
-
     <target name="tests"
-            depends="lint,phpunit-setup,unit-tests,integration-tests,acceptance-tests,behat"
+            depends="lint,tests-init,unit-tests,integration-tests,acceptance-tests"
             description="Tests ALL THE THINGS!" />
 
-    <target name="unit-tests" description="Run unit tests with PHPUnit" depends="lint,phpunit-setup">
-        <exec command="${composer.bin_path}/phpunit -c tests/phpunit/unit.xml"
+    <target name="unit-tests" description="Run unit tests with PHPUnit" depends="lint">
+        <exec command="${composer.bin}/phpunit -c tests/unit.xml"
               passthru="true"
               checkreturn="true" />
     </target>
 
-    <target name="integration-tests" description="Run integration tests with PHPUnit" depends="lint,phpunit-setup">
-        <exec command="${composer.bin_path}/phpunit -c tests/phpunit/integration.xml"
+    <target name="integration-tests" description="Run integration tests with PHPUnit" depends="lint,tests-init">
+        <exec command="${composer.bin}/phpunit -c tests/integration.xml"
               passthru="true"
               checkreturn="true" />
     </target>
 
     <target name="acceptance-tests" depends="behat" />
 
-    <target name="behat" description="Run acceptance tests with Behat" depends="lint">
-        <exec command="${composer.bin_path}/behat"
+    <target name="behat" description="Run acceptance tests with Behat" depends="lint,tests-init">
+        <exec command="${composer.bin}/behat"
               passthru="true"
               checkreturn="true" />
     </target>
 
-    <target name="selenium-download">
-        <exec command='curl "http://selenium.googlecode.com/files/selenium-server-standalone-2.38.0.jar" -o ${project.basedir}/selenium-server.jar'
-              passthru="true"
-              checkreturn="true" />
-        <echo>Run this command to start selenium:
-            java -jar ${project.basedir}/selenium-server.jar
-        </echo>
+    <target name="selenium-start" depends="selenium-download">
+        <if>
+            <available file="${selenium.path}" />
+            <then>
+                <exec command="java -jar ${project.basedir}/selenium-server.jar"
+                      passthru="true"
+                      checkreturn="true" />
+            </then>
+        </if>
+    </target>
+
+    <target name="selenium-download" depends="init">
+        <if>
+            <not>
+                <available file="${selenium.path}" />
+            </not>
+            <then>
+                <exec command='curl "http://selenium.googlecode.com/files/selenium-server-standalone-2.38.0.jar" -o ${project.basedir}/selenium-server.jar'
+                      passthru="true"
+                      checkreturn="true" />
+            </then>
+        </if>
     </target>
 
     <target name="selenium-stop">
         <exec command='curl "http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer"' checkreturn="true" />
+    </target>
+
+    <target name="tests-init" depends="wp-core-init,wp-tests-init,wp-build-copy" />
+
+    <target name="wp-core-init" depends="init">
+        <if>
+            <not>
+                <available file="${build.wp_core_path}" />
+            </not>
+            <then>
+                <mkdir dir="${build.wp_core_path}" />
+                <echo msg="Downloading WordPress version: ${build.wp_version} and extracting it into ${build.wp_core_path}" />
+                <exec command="git clone -b ${build.wp_version} ${build.wp_core_repo} ${build.wp_core_path}" />
+            </then>
+            <else>
+                <echo msg="Skipping WordPress download. Using existing install tests directory in ${build.wp_core_path}" />
+            </else>
+        </if>
+    </target>
+
+    <target name="wp-tests-init" depends="wp-tests-download,wp-tests-update-config" />
+
+    <target name="wp-tests-download" depends="init">
+        <if>
+            <not>
+                <available file="${build.wp_tests_path}" />
+            </not>
+            <then>
+                <mkdir dir="${build.wp_tests_path}" />
+                <echo msg="Downloading WordPress tests framework version: ${build.wp_version} and extracting it into ${build.wp_tests_path}" />
+                <exec command="svn co --quiet --ignore-externals ${build.wp_tests_repo} ${build.wp_tests_path}"
+                      passthru="true"
+                      checkreturn="true" />
+            </then>
+            <else>
+                <echo msg="Skipping WordPress tests framework download. Using existing install tests directory in ${build.wp_tests_path}" />
+            </else>
+        </if>
+    </target>
+
+    <target name="wp-tests-update-config" depends="init">
+        <copy file="${build.wp_tests_path}/wp-tests-config-sample.php"
+              tofile="${build.wp_tests_path}/wp-tests-config.php"
+              overwrite="true" />
+
+        <exec command="sed -i '' 's/youremptytestdbnamehere/${build.wp_tests_db}/' ${build.wp_tests_path}/wp-tests-config.php" />
+        <exec command="sed -i '' 's/yourusernamehere/${build.db_user}/' ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+        <exec command="sed -i '' 's/yourpasswordhere/${build.db_pass}/' ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+        <exec command="sed -i '' 's/localhost/${build.db_host}/' ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+        <exec command="sed -i '' &quot;s-define( 'ABSPATH', dirname( __FILE__ ) . '/src/' );-define( 'ABSPATH', getenv( 'WP_CORE_DIR' ) ? getenv( 'WP_CORE_DIR' ) . '/' : dirname( __FILE__ ) . '/src/' );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+
+        <if>
+            <istrue value="${build.wp_multisite}" />
+            <then>
+                <echo msg="Multisite Enabled" />
+                <exec command="sed -i '' &quot;s-// define( 'WP_TESTS_MULTISITE', true );-define( 'WP_TESTS_MULTISITE', true );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+            </then>
+            <else>
+                <echo msg="Multisite based on environment variable: WP_MULTISITE" />
+                <exec command="sed -i '' &quot;s-// define( 'WP_TESTS_MULTISITE', true );-define( 'WP_TESTS_MULTISITE', (bool) getenv( 'WP_MULTISITE' ) );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+            </else>
+        </if>
+    </target>
+
+    <target name="wp-tests-db-init" depends="init">
+        <echo msg="Created MySQL database: ${build.wp_tests_db}" />
+        <exec command="${mysql.exec} -e 'DROP DATABASE IF EXISTS ${build.wp_tests_db};' -u ${build.db_user} -p${build.db_pass}" passthru="true" checkreturn="true" />
+        <exec command="${mysql.exec} -e 'CREATE DATABASE ${build.wp_tests_db};' -u ${build.db_user} -p${build.db_pass}" passthru="true" checkreturn="true" />
+    </target>
+
+    <target name="wp-build-copy" depends="init">
+        <exec command="basename ${project.basedir}" outputProperty="dir.name" />
+        <if>
+            <equals arg1="${build.type}" arg2="plugin" />
+            <then>
+                <property name="build.copy_path" value="${build.wp_core_path}/${build.wp_content}/plugins/${dir.name}" />
+            </then>
+            <else>
+                <property name="build.copy_path" value="${build.wp_core_path}/${build.wp_content}/themes/${dir.name}" />
+            </else>
+        </if>
+
+        <if>
+            <not>
+                <available file="${build.copy_path}" />
+            </not>
+            <then>
+                <echo>Copy ${dir.name} to ${build.copy_path}</echo>
+                <copy todir="${build.copy_path}">
+                    <fileset dir="${project.basedir}" />
+                </copy>
+            </then>
+            <else>
+                <echo msg="Skipping build copy. Path already exists: ${build.copy_path}" />
+            </else>
+        </if>
     </target>
 
     <fileset id="src.php" dir="${project.basedir}">
