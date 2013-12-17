@@ -16,6 +16,8 @@ env:
     - WP_VERSION=3.7.1 WP_MULTISITE=1
     - WP_VERSION=3.6.1 WP_MULTISITE=1
 
-before_script: echo "build.db_pass=" >> build.properties
+before_script:
+    - composer install
+    - echo "build.db_pass=" >> build.properties
 
 script: vendor/bin/phing
