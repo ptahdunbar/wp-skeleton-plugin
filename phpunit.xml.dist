@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="tests/bootstrap-wp.php"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="true"
+    verbose="true"
+    printerFile="vendor/whatthejeff/nyancat-phpunit-resultprinter/src/NyanCat/PHPUnit/ResultPrinter.php"
+    printerClass="NyanCat\PHPunit\ResultPrinter"
+>
+    <testsuites>
+        <testsuite name="unit">
+            <directory suffix="Test.php">tests/phpunit/unit/</directory>
+        </testsuite>
+        <testsuite name="integration">
+            <directory suffix="Test.php">tests/phpunit/integration/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

@@ -32,6 +32,7 @@
         "behat/mink-extension": "*",
         "behat/mink-goutte-driver": "*",
         "behat/mink-selenium2-driver": "*",
-        "facebook/webdriver": "*"
+        "facebook/webdriver": "*",
+        "satooshi/php-coveralls": "dev-master"
     }
 }
