@@ -203,12 +203,12 @@
 
     <target name="wp-tests-db-init" depends="init,mysql-connection-check">
         <echo msg="Created MySQL database: ${build.wp_tests_db}" />
-        <exec command="${mysql.exec} -e 'DROP DATABASE IF EXISTS ${build.wp_tests_db};' -u ${build.db_user} -p${build.db_pass}" passthru="true" checkreturn="true" />
-        <exec command="${mysql.exec} -e 'CREATE DATABASE ${build.wp_tests_db};' -u ${build.db_user} -p${build.db_pass}" passthru="true" checkreturn="true" />
+        <exec command="${mysql.exec} -e 'DROP DATABASE IF EXISTS ${build.wp_tests_db};' --user=${build.db_user} --password=${build.db_pass}" passthru="true" checkreturn="true" />
+        <exec command="${mysql.exec} -e 'CREATE DATABASE ${build.wp_tests_db};' --user=${build.db_user} --password=${build.db_pass}" passthru="true" checkreturn="true" />
     </target>
 
     <target name="mysql-connection-check">
-        <exec command="${mysql.exec} -e 'SHOW DATABASES;' -h ${build.db_host} -u ${build.db_user} -p${build.db_pass}" checkreturn="true" />
+        <exec command="${mysql.exec} -e 'SHOW DATABASES;' -h ${build.db_host} --user=${build.db_user} --password=${build.db_pass}" checkreturn="true" />
     </target>
 
     <target name="wp-build-copy" depends="init">
