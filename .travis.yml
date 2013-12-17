@@ -14,4 +14,4 @@ before_script:
     - vendor/bin/phing tests-init
     - cat /tmp/wordpress-tests/wp-tests-config.php
 
-script: pwd
+script: vendor/bin/phing
