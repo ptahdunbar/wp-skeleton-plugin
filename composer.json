@@ -2,8 +2,9 @@
     "name": "ptahdunbar/wp-skeleton-plugin",
     "homepage": "https://github.com/ptahdunbar/wp-skeleton-plugin",
     "description": "A walking skeleton WordPress plugin. -_O",
-    "type": "wordpress-plugin",
     "license": "GPL-2.0+",
+
+    "type": "wordpress-plugin",
 
     "keywords": [
         "WordPress", "plugins", "themes", "php", "skeleton"
