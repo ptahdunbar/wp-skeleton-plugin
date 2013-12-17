@@ -9,16 +9,17 @@
 
     <property name="build.wp_content" value="wp-content" />
     <property name="build.wp_version" value="3.8-branch" />
+    <property name="build.wp_multisite" value="false" />
     <property name="build.db_host" value="localhost" />
     <property name="build.db_user" value="root" />
     <property name="build.db_pass" value="root" />
+    <property name="build.type" value="plugin" />
+
     <property name="build.wp_core_repo" value="git://github.com/WordPress/WordPress.git" />
     <property name="build.wp_core_path" value="/tmp/wordpress" />
     <property name="build.wp_tests_path" value="/tmp/wordpress-tests" />
     <property name="build.wp_tests_db" value="wordpress_tests" />
     <property name="build.wp_tests_repo" value="http://develop.svn.wordpress.org/trunk/" />
-    <property name="build.wp_multisite" value="false" />
-    <property name="build.type" value="plugin" />
     <property name="mysql.exec" value="mysql" />
 
     <target name="build"
