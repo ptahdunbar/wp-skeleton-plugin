@@ -152,7 +152,7 @@
         </if>
     </target>
 
-    <target name="wp-tests-init" depends="wp-tests-download,wp-tests-update-config" />
+    <target name="wp-tests-init" depends="wp-tests-download,update-wp-tests-config" />
 
     <target name="wp-tests-download" depends="init">
         <if>
@@ -172,28 +172,33 @@
         </if>
     </target>
 
-    <target name="wp-tests-update-config" depends="init">
-        <copy file="${build.wp_tests_path}/wp-tests-config-sample.php"
-              tofile="${build.wp_tests_path}/wp-tests-config.php"
-              overwrite="true" />
-
-        <exec command="sed -i '' 's/youremptytestdbnamehere/${build.wp_tests_db}/' ${build.wp_tests_path}/wp-tests-config.php" />
-        <exec command="sed -i '' 's/yourusernamehere/${build.db_user}/' ${build.wp_tests_path}/wp-tests-config.php" />
-        <exec command="sed -i '' 's/yourpasswordhere/${build.db_pass}/' ${build.wp_tests_path}/wp-tests-config.php" />
-        <exec command="sed -i '' 's/localhost/${build.db_host}/' ${build.wp_tests_path}/wp-tests-config.php" />
-        <exec command="sed -i '' &quot;s-define( 'ABSPATH', dirname( __FILE__ ) . '/src/' );-define( 'ABSPATH', getenv( 'WP_CORE_DIR' ) ? getenv( 'WP_CORE_DIR' ) . '/' : dirname( __FILE__ ) . '/src/' );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" />
-
+    <target name="update-wp-tests-config" depends="init">
         <if>
             <istrue value="${build.wp_multisite}" />
             <then>
                 <echo msg="Multisite Enabled" />
-                <exec command="sed -i '' &quot;s-// define( 'WP_TESTS_MULTISITE', true );-define( 'WP_TESTS_MULTISITE', true );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" />
+                <property name="multisite" value="true" />
             </then>
             <else>
                 <echo msg="Multisite based on environment variable: WP_MULTISITE" />
-                <exec command="sed -i '' &quot;s-// define( 'WP_TESTS_MULTISITE', true );-define( 'WP_TESTS_MULTISITE', (bool) getenv( 'WP_MULTISITE' ) );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" />
+                <property name="multisite" value="(bool) getenv( 'WP_MULTISITE' )" />
             </else>
         </if>
+
+        <copy file="${build.wp_tests_path}/wp-tests-config-sample.php"
+              tofile="${build.wp_tests_path}/wp-tests-config.php"
+              overwrite="true">
+            <filterchain>
+                <replaceregexp>
+                    <regexp pattern="youremptytestdbnamehere" replace="${build.wp_tests_db}" ignoreCase="true" />
+                    <regexp pattern="yourusernamehere" replace="${build.db_user}" ignoreCase="true" />
+                    <regexp pattern="yourpasswordhere" replace="${build.db_pass}" ignoreCase="true" />
+                    <regexp pattern="localhost" replace="${build.db_host}" ignoreCase="true" />
+                    <regexp pattern="dirname\( __FILE__ \) \. \'\/src\/\'" replace="getenv( 'WP_CORE_DIR' ) ? getenv( 'WP_CORE_DIR' ) . '/' : dirname( __FILE__ ) . '/src/'" ignoreCase="true" />
+                    <regexp pattern="\/\/ define\( \'WP_TESTS_MULTISITE\'\, true \)\;" replace="define( 'WP_TESTS_MULTISITE', ${multisite} );" ignoreCase="true" />
+                </replaceregexp>
+            </filterchain>
+        </copy>
     </target>
 
     <target name="wp-tests-db-init" depends="init,mysql-connection-check">
@@ -202,9 +207,9 @@
         <exec command="${mysql.exec} -e 'CREATE DATABASE ${build.wp_tests_db};' -u ${build.db_user} -p${build.db_pass}" passthru="true" checkreturn="true" />
     </target>
 
-	<target name="mysql-connection-check">
-		<exec command="${mysql.exec} -e 'SHOW DATABASES;' -h ${build.db_host} -u ${build.db_user} -p${build.db_pass}" checkreturn="true" />
-	</target>
+    <target name="mysql-connection-check">
+        <exec command="${mysql.exec} -e 'SHOW DATABASES;' -h ${build.db_host} -u ${build.db_user} -p${build.db_pass}" checkreturn="true" />
+    </target>
 
     <target name="wp-build-copy" depends="init">
         <exec command="basename ${project.basedir}" outputProperty="dir.name" />
