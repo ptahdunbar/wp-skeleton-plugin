@@ -19,5 +19,6 @@ env:
 before_script:
     - composer install
     - echo "build.db_pass=" >> build.properties
+    - vendor/bin/phing tests-init
 
 script: vendor/bin/phing

@@ -178,10 +178,10 @@
               overwrite="true" />
 
         <exec command="sed -i '' 's/youremptytestdbnamehere/${build.wp_tests_db}/' ${build.wp_tests_path}/wp-tests-config.php" />
-        <exec command="sed -i '' 's/yourusernamehere/${build.db_user}/' ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
-        <exec command="sed -i '' 's/yourpasswordhere/${build.db_pass}/' ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
-        <exec command="sed -i '' 's/localhost/${build.db_host}/' ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
-        <exec command="sed -i '' &quot;s-define( 'ABSPATH', dirname( __FILE__ ) . '/src/' );-define( 'ABSPATH', getenv( 'WP_CORE_DIR' ) ? getenv( 'WP_CORE_DIR' ) . '/' : dirname( __FILE__ ) . '/src/' );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" passthru="true" checkreturn="true" />
+        <exec command="sed -i '' 's/yourusernamehere/${build.db_user}/' ${build.wp_tests_path}/wp-tests-config.php" />
+        <exec command="sed -i '' 's/yourpasswordhere/${build.db_pass}/' ${build.wp_tests_path}/wp-tests-config.php" />
+        <exec command="sed -i '' 's/localhost/${build.db_host}/' ${build.wp_tests_path}/wp-tests-config.php" />
+        <exec command="sed -i '' &quot;s-define( 'ABSPATH', dirname( __FILE__ ) . '/src/' );-define( 'ABSPATH', getenv( 'WP_CORE_DIR' ) ? getenv( 'WP_CORE_DIR' ) . '/' : dirname( __FILE__ ) . '/src/' );-g&quot; ${build.wp_tests_path}/wp-tests-config.php" />
 
         <if>
             <istrue value="${build.wp_multisite}" />
