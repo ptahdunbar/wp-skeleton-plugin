@@ -152,7 +152,7 @@
         </if>
     </target>
 
-    <target name="wp-tests-init" depends="wp-tests-download,update-wp-tests-config" />
+    <target name="wp-tests-init" depends="wp-tests-download,update-wp-tests-config,wp-tests-db-init" />
 
     <target name="wp-tests-download" depends="init">
         <if>
