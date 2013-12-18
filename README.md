@@ -1,10 +1,14 @@
 # WP Skeleton Plugin [![Build Status](https://travis-ci.org/ptahdunbar/wp-skeleton-plugin.png?branch=master)](https://travis-ci.org/ptahdunbar/wp-skeleton-plugin)
 
-> This is a work in progress. Very alpha, subject to sweeping changes at random intervals :)
+> "A Walking Skeleton is an implementation of the thinnest possible slice of real functionality that we can automatically build, deploy and test end-to-end." - Freeman & Pryce GOOS
+
+**NOTE** This is a work in progress. Very alpha, subject to sweeping changes at random intervals :)
 
 ## Installation
 
-#### Via composer
+### Via composer
+
+#### Download into plugins directory:
 
 ```
 {
@@ -14,10 +18,14 @@
 }
 ```
 
-#### Via git
+#### Download into mu-plugins directory:
 
 ```
-git clone git@github.com:ptahdunbar/wp-skeleton-plugin.git
+{
+    "require" : {
+        "ptahdunbar/wp-skeleton-plugin" : "dev-muplugin"
+    }
+}
 ```
 
 ## Features
