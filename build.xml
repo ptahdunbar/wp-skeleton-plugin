@@ -165,11 +165,24 @@
                 <exec command="svn co --quiet --ignore-externals ${build.wp_tests_repo} ${build.wp_tests_path}"
                       passthru="true"
                       checkreturn="true" />
-                <exec command="svn checkout https://plugins.svn.wordpress.org/wordpress-importer/trunk tests/phpunit/data/plugins/wordpress-importer"
-                      dir="${build.wp_tests_path}" />
             </then>
             <else>
-                <echo msg="Skipping WordPress tests framework download. Using existing install tests directory in ${build.wp_tests_path}" />
+                <echo msg="Skipping WordPress tests framework download. Already exists in directory." />
+            </else>
+        </if>
+        <if>
+            <not>
+                <available file="${build.wp_tests_path}/tests/phpunit/data/plugins/wordpress-importer" />
+            </not>
+            <then>
+                <mkdir dir="${build.wp_tests_path}" />
+                <echo msg="Downloading WordPress Importer plugin into test framework" />
+                <exec command="svn checkout --non-interactive --trust-server-cert https://plugins.svn.wordpress.org/wordpress-importer/trunk ${build.wp_tests_path}/tests/phpunit/data/plugins/wordpress-importer"
+                      passthru="true"
+                      checkreturn="true" />
+            </then>
+            <else>
+                <echo msg="Skipped WordPress Importer download. Already exists in directory." />
             </else>
         </if>
     </target>
