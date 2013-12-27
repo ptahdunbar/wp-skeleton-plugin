@@ -1,26 +1,28 @@
 default:
   paths:
-    features:   %behat.paths.base%/tests/behat/features
-    bootstrap:  %behat.paths.base%/tests/behat/bootstrap
+    features:   %behat.paths.base%/features
+    bootstrap:  %behat.paths.features%/bootstrap
   extensions:
     Behat\MinkExtension\Extension:
-      base_url: ''
-      goutte:    ~
+      base_url: 'https://wpss.dev'
+      goutte:
+        guzzle_parameters:
+          ssl.certificate_authority: false
       selenium2: ~
 
 development:
   extensions:
     Behat\MinkExtension\Extension:
-      base_url: ''
+      #base_url: ''
 testing:
   extensions:
     Behat\MinkExtension\Extension:
-      base_url: ''
+      #base_url: ''
 staging:
   extensions:
     Behat\MinkExtension\Extension:
-      base_url: ''
+      #base_url: ''
 production:
   extensions:
     Behat\MinkExtension\Extension:
-      base_url: ''
+      #base_url: ''

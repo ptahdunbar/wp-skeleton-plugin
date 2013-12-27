@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit
-    bootstrap="tests/bootstrap-wp.php"
+    bootstrap="tests/bootstrap.php"
     backupGlobals="false"
     backupStaticAttributes="false"
     colors="true"
+    strict="true"
     verbose="true"
-    printerFile="vendor/whatthejeff/nyancat-phpunit-resultprinter/src/NyanCat/PHPUnit/ResultPrinter.php"
-    printerClass="NyanCat\PHPunit\ResultPrinter"
+    printerFile="vendor/whatthejeff/fab-phpunit-resultprinter/src/Fab/PHPUnit/ResultPrinter.php"
+    printerClass="Fab\PHPUnit\ResultPrinter"
 >
     <testsuites>
         <testsuite name="unit">
@@ -16,4 +18,18 @@
             <directory suffix="Test.php">tests/phpunit/integration/</directory>
         </testsuite>
     </testsuites>
+
+    <logging>
+        <log type="junit" target="build/logs/junit.xml" />
+        <log type="coverage-clover" target="build/logs/clover.xml" />
+        <log type="coverage-html" target="build/coverage" />
+    </logging>
+
+    <filter>
+        <whitelist>
+            <directory>includes/</directory>
+            <file>autoload.php</file>
+            <file>uninstall.php</file>
+        </whitelist>
+    </filter>
 </phpunit>
