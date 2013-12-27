@@ -1,4 +1,4 @@
-# System files
+# System files & Artifacts
 .DS_Store
 .phplint.cache
 build.properties
@@ -6,7 +6,6 @@ build
 selenium-server.jar
 node_modules
 npm-debug.log
-tests/wp-tests-config.php
 
 # IDE
 .idea
@@ -18,3 +17,6 @@ varrgrant.json
 
 # Composer
 vendor
+
+# Project files
+tests/wp-tests-config.php
