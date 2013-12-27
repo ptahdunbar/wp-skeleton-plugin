@@ -3,9 +3,9 @@
 <project name="WP Skeleton Plugin" default="build" basedir=".">
 
     <property name="wp.version" value="3.8" />
-    <property name="wp.repo" value="http://wordpress.org/wordpress-${wp.version}.zip" />
-    <property name="wp.abspath" value="/tmp/wordpress-${wp.version}/wordpress" />
-    <property name="wp.content" value="/tmp/wordpress-${wp.version}/wordpress/wp-content" />
+    <property name="wp.repo" value="http://wordpress.org/wordpress-${wp.version}.tar.gz" />
+    <property name="wp.abspath" value="/tmp/wordpress-${wp.version}" />
+    <property name="wp.content" value="/tmp/wordpress-${wp.version}/wp-content" />
     <property name="wp.tests_repo" value="http://develop.svn.wordpress.org/trunk" />
     <property name="wp.tests_multisite" value="false" />
     <property name="wp.tests_abspath" value="/tmp/wordpress-tests" />
@@ -58,7 +58,7 @@
               checkreturn="true" />
     </target>
 
-    <target name="tests-setup" depends="wp-core-download">
+    <target name="tests-setup">
         <exec command="basename ${project.basedir}" outputProperty="project.dirname" />
         <resolvepath propertyName="wp.abspath.resolved" file="${wp.abspath}" />
         <property name="wp.abspath.resolved" value="${wp.abspath.resolved}/" override="true" />
@@ -68,6 +68,13 @@
         <resolvepath propertyName="wp.tests_importer_plugin.resolved" file="${wp.tests_abspath.resolved}/tests/phpunit/data/plugins/wordpress-importer" />
         <resolvepath propertyName="tests_dir.resolved" file="${tests_dir}" />
 
+        <echo msg="OK! project.dirname: ${project.dirname}" />
+        <echo msg="OK! wp.abspath: ${wp.abspath.resolved}" />
+        <echo msg="OK! wp.content: ${wp.content.resolved}" />
+        <echo msg="OK! wp.tests_abspath: ${wp.tests_abspath.resolved}" />
+    </target>
+
+    <target name="wp-content-check" depends="wp-core-download">
         <if>
             <not>
                 <available file="${wp.content.resolved}" />
@@ -76,23 +83,19 @@
                 <fail message="wp.content.resolved property error: Invalid directory: ${wp.content.resolved}. Please make sure this directory exists." />
             </then>
         </if>
-
-        <echo msg="OK! project.dirname: ${project.dirname}" />
-        <echo msg="OK! wp.abspath: ${wp.abspath.resolved}" />
-        <echo msg="OK! wp.content: ${wp.content.resolved}" />
-        <echo msg="OK! wp.tests_abspath: ${wp.tests_abspath.resolved}" />
     </target>
 
-    <target name="wp-core-download" depends="init">
+    <target name="wp-core-download" depends="tests-setup">
         <if>
             <not>
-                <available file="${wp.abspath}" />
+                <available file="${wp.abspath.resolved}" />
             </not>
             <then>
-                <echo msg="Downloading WordPress version: ${wp.version} and extracting it into ${wp.abspath}" />
-                <exec command="wget -qO- -O ${wp.abspath}.zip ${wp.repo}" checkreturn="true" />
-                <exec command="unzip -o ${wp.abspath}.zip -d ${wp.abspath}" checkreturn="true" />
-                <exec command="rm ${wp.abspath}.zip" checkreturn="true" />
+                <echo msg="Downloading WordPress version: ${wp.version} and extracting it into ${wp.abspath.resolved}" />
+                <mkdir dir="${wp.abspath.resolved}" />
+                <exec command="wget -qO- -O ${wp.abspath}.tar.gz ${wp.repo}" checkreturn="true" />
+                <exec command="tar zxf ${wp.abspath}.tar.gz &amp;&amp; mv wordpress/* ${wp.abspath.resolved}" checkreturn="true" />
+                <exec command="rm ${wp.abspath}.tar.gz" checkreturn="true" />
             </then>
             <else>
                 <echo msg="Skipping WordPress version ${wp.version} download. Already exists." />
@@ -100,7 +103,7 @@
         </if>
     </target>
 
-    <target name="wp-core-copy-plugin" depends="tests-setup">
+    <target name="wp-core-copy-plugin" depends="wp-content-check">
         <exec command="basename ${project.basedir}" outputProperty="dir.name" />
         <resolvepath propertyName="project.dir.resolved" file="${wp.content.resolved}/${project.type}/${dir.name}" />
         <symlink target="${project.basedir}" link="${project.dir.resolved}" />
@@ -131,7 +134,6 @@
                 <mkdir dir="${wp.tests_importer_plugin.resolved}" />
                 <echo msg="Downloading WordPress Importer plugin into test framework" />
                 <exec command="${svn.exec} checkout --non-interactive --trust-server-cert https://plugins.svn.wordpress.org/wordpress-importer/trunk ${wp.tests_importer_plugin.resolved}"
-                      passthru="true"
                       checkreturn="true" />
             </then>
             <else>
