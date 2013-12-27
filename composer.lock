@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "291ca65e35a6bad8e0ba53d6ed255dd5",
+    "hash": "2ae505c1c3679d1db89ea3512e6abddd",
     "packages": [
 
     ],
@@ -2003,6 +2003,69 @@
                 "rainbow"
             ],
             "time": "2013-02-14 01:28:47"
+        },
+        {
+            "name": "whatthejeff/fab-phpunit-resultprinter",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whatthejeff/fab-phpunit-resultprinter.git",
+                "reference": "8b5d891f6ef942147371d4ca11646d92d790d936"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whatthejeff/fab-phpunit-resultprinter/zipball/8b5d891f6ef942147371d4ca11646d92d790d936",
+                "reference": "8b5d891f6ef942147371d4ca11646d92d790d936",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "whatthejeff/fab": ">=1.0.0"
+            },
+            "require-dev": {
+                "pear-pear/pear": "1.9.4",
+                "phpunit/php-code-coverage": "1.3.*@dev",
+                "phpunit/php-file-iterator": ">=1.3.1@dev",
+                "phpunit/php-text-template": ">=1.1.1@dev",
+                "phpunit/php-timer": ">=1.1.0@dev",
+                "phpunit/phpunit": "3.8.*@dev",
+                "phpunit/phpunit-mock-objects": "1.3.*@dev",
+                "sebastian/diff": ">=1.0.0@dev",
+                "sebastian/exporter": ">=1.0.0@dev",
+                "sebastian/version": ">=1.0.0@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Fab": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeff Welch",
+                    "email": "whatthejeff@gmail.com"
+                }
+            ],
+            "description": "Make your unit tests fabulous!",
+            "homepage": "http://github.com/whatthejeff/fab-phpunit-resultprinter",
+            "keywords": [
+                "colorful",
+                "fab",
+                "fabulous",
+                "phpunit",
+                "rainbow",
+                "tests"
+            ],
+            "time": "2013-10-30 06:06:45"
         },
         {
             "name": "whatthejeff/nyancat-phpunit-resultprinter",

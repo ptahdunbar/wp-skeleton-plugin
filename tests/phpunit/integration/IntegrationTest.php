@@ -1,25 +1,42 @@
 <?php
 
-class IntegrationTest extends WP_UnitTestCase
+class ExampleTest extends WP_UnitTestCase
 {
     /**
-     * Returns an array of all required plugins that need to be active in
-     * this WordPress installation.
-     *
-     * @see testAllRequiredPluginsAreActive
+     * @dataProvider getRequiredPluginsProvider
      */
-    public function getRequiredPlugins()
+    public function testRequiredPluginsAreActive($plugin)
+    {
+        $this->assertTrue( is_plugin_active($plugin), sprintf('%s is not activated.', $plugin) );
+    }
+
+    /**
+     * @dataProvider getRequiredOptionsProvider
+     */
+    public function testRequiredWPOptionsAreSet($option_name, $option_value)
+    {
+        $this->assertSame($option_value, get_option($option_name));
+    }
+
+    /**
+     * @see testAllRequiredPluginsAreActive
+     * @return array
+     */
+    public function getRequiredPluginsProvider()
     {
         return [
-            ['hello.php'],
+            ['wp-skeleton-plugin/autoload.php'],
         ];
     }
 
     /**
-     * @dataProvider getRequiredPlugins
+     * @see testRequiredWPOptionsAreSet
+     * @return array
      */
-    public function testAllRequiredPluginsAreActive($plugin)
+    function getRequiredOptionsProvider()
     {
-        $this->assertTrue( is_plugin_active($plugin), sprintf('%s is not activated.', $plugin) );
+        return [
+            ['timezone_string', 'America/New_York'],
+        ];
     }
 }

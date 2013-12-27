@@ -27,6 +27,7 @@
         "phpunit/dbunit": "1.2.*@dev",
         "phpunit/phpunit-selenium" : "*",
         "whatthejeff/nyancat-phpunit-resultprinter": "~1.1",
+        "whatthejeff/fab-phpunit-resultprinter": "~1.1",
         "behat/behat": "2.4.*",
         "behat/mink": "1.4.*",
         "behat/mink-extension": "*",

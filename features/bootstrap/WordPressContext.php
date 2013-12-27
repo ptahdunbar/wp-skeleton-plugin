@@ -1,6 +1,6 @@
 <?php
 
-// https://github.com/maartenJacobs/WordPress-Behat-Context
+// source: https://github.com/maartenJacobs/WordPress-Behat-Context
 
 namespace WordPress\Mink\Context;
 use Behat\MinkExtension\Context\MinkContext as BehatContext;
