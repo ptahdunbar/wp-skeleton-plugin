@@ -1,8 +1,6 @@
 <?php
 /**
  * Fired when the plugin is uninstalled.
- *
- * @package WPSkeletonPlugin
  */
 
 // If uninstall not called from WordPress, then exit
