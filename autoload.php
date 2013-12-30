@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Skeleton Plugin
- * Version: 1.0.0
+ * Version: 0.0.1
  * Description: A WordPress skeleton plugin. -_O
  * Author: Ptah Dunbar
  * Author URI: http://ptahdunbar.com
