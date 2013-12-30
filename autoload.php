@@ -8,9 +8,8 @@
  * Text Domain: wp-skeleton-plugin
  * Domain Path: /languages
  * License: GPL2 or later
- * GitHub Plugin URI: https://github.com/<owner>/<repo>
- *
- * @package WPSkeletonPlugin
+ * GitHub Plugin URI: <owner>/<repo>
+ * GitHub Branch: master
  */
 
 /** Load composer */
