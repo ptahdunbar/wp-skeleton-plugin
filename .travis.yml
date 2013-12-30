@@ -1,4 +1,5 @@
 # Travis CI Configuration File
+# http://about.travis-ci.org/docs/user/languages/php/
 
 language: php
 
@@ -17,7 +18,7 @@ env:
     - WP_VERSION=3.6.1 WP_MULTISITE=1
 
 before_script:
-    - composer install
+    - composer install --no-interaction --optimize-autoloader
     - vendor/bin/phing prepare
 
 script: vendor/bin/phing
