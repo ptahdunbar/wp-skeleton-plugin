@@ -9,7 +9,7 @@
     <property name="wp.tests_repo" value="http://develop.svn.wordpress.org/trunk" />
     <property name="wp.tests_multisite" value="false" />
     <property name="wp.tests_abspath" value="/tmp/wordpress-tests" />
-    <property name="wp.tests_override_config_file" value="true" />
+    <property name="wp.tests_override_config_file" value="false" />
 
     <property name="mysql.exec" value="mysql" />
     <property name="mysql.host" value="localhost" />
@@ -26,7 +26,7 @@
     <property name="java.exec" value="java" />
     <property name="selenium.exec" value="${project.basedir}/selenium-server.jar" />
 
-    <property name="project.type" value="plugins" />
+    <property name="wp.parentdir" value="plugins" />
     <property name="tests_dir" value="./tests" />
     <property name="selenium.download_url" value="http://selenium.googlecode.com/files/selenium-server-standalone-2.38.0.jar" />
     <property name="phplint.cachefile" value="${project.basedir}/.phplint.cache" />
@@ -39,7 +39,7 @@
     <target name="tests" description="TEST ALL THE THINGS!" depends="phpunit,behat" />
 
     <target name="prepare"
-            depends="init,wp-tests-db-prepare,wp-tests-config-prepare,wp-core-copy-plugin"
+            depends="init,wp-tests-db-prepare,wp-tests-config-prepare,wp-prepare-target"
             description="Prepare and configures the environment." />
 
     <target name="lint"
@@ -58,22 +58,6 @@
               checkreturn="true" />
     </target>
 
-    <target name="tests-setup">
-        <exec command="basename ${project.basedir}" outputProperty="project.dirname" />
-        <resolvepath propertyName="wp.abspath.resolved" file="${wp.abspath}" />
-        <property name="wp.abspath.resolved" value="${wp.abspath.resolved}/" override="true" />
-        <resolvepath propertyName="wp.content.resolved" file="${wp.content}" />
-        <property name="wp.content.resolved" value="${wp.content.resolved}/" override="true" />
-        <resolvepath propertyName="wp.tests_abspath.resolved" file="${wp.tests_abspath}" />
-        <resolvepath propertyName="wp.tests_importer_plugin.resolved" file="${wp.tests_abspath.resolved}/tests/phpunit/data/plugins/wordpress-importer" />
-        <resolvepath propertyName="tests_dir.resolved" file="${tests_dir}" />
-
-        <echo msg="OK! project.dirname: ${project.dirname}" />
-        <echo msg="OK! wp.abspath: ${wp.abspath.resolved}" />
-        <echo msg="OK! wp.content: ${wp.content.resolved}" />
-        <echo msg="OK! wp.tests_abspath: ${wp.tests_abspath.resolved}" />
-    </target>
-
     <target name="wp-content-check" depends="wp-core-download">
         <if>
             <not>
@@ -85,7 +69,7 @@
         </if>
     </target>
 
-    <target name="wp-core-download" depends="tests-setup">
+    <target name="wp-core-download" depends="init">
         <if>
             <not>
                 <available file="${wp.abspath.resolved}" />
@@ -103,14 +87,24 @@
         </if>
     </target>
 
-    <target name="wp-core-copy-plugin" depends="wp-content-check">
+    <target name="wp-prepare-target" depends="wp-content-check">
         <exec command="basename ${project.basedir}" outputProperty="dir.name" />
-        <resolvepath propertyName="project.dir.resolved" file="${wp.content.resolved}/${project.type}/${dir.name}" />
-        <symlink target="${project.basedir}" link="${project.dir.resolved}" />
-        <echo msg="OK! project.dir.resolved: ${project.dir.resolved}" />
+        <resolvepath propertyName="project.dir.resolved" file="${wp.content.resolved}/${wp.parentdir}/${dir.name}" />
+        <if>
+            <not>
+                <available file="${project.dir.resolved}" />
+            </not>
+            <then>
+                <symlink target="${project.basedir}" link="${project.dir.resolved}" />
+                <echo msg="OK! project.dir.resolved: ${project.dir.resolved}" />
+            </then>
+            <else>
+                <echo msg="Skipping symlink - target already located in path: ${project.dir.resolved}" />
+            </else>
+        </if>
     </target>
 
-    <target name="wp-tests-download" depends="tests-setup">
+    <target name="wp-tests-download" depends="init">
         <if>
             <not>
                 <available file="${wp.tests_abspath.resolved}" />
@@ -176,7 +170,7 @@
         <echo msg="OK! Updated wp-tests-config.php: ${wp.tests_abspath.resolved}/wp-tests-config.php" />
     </target>
 
-    <target name="wp-tests-db-prepare" depends="tests-setup">
+    <target name="wp-tests-db-prepare" depends="init">
         <exec executable="${mysql.exec}" passthru="true" checkreturn="true" escape="false">
             <arg value="--user=${mysql.user}" />
             <arg value="--password=${mysql.pass}" />
@@ -192,7 +186,21 @@
         <echo msg="OK! MySQL database created: ${mysql.db}" />
     </target>
 
-    <target name="init" depends="load-props" />
+    <target name="init" depends="load-props">
+        <exec command="basename ${project.basedir}" outputProperty="project.dirname" />
+        <resolvepath propertyName="wp.abspath.resolved" file="${wp.abspath}" />
+        <property name="wp.abspath.resolved" value="${wp.abspath.resolved}/" override="true" />
+        <resolvepath propertyName="wp.content.resolved" file="${wp.content}" />
+        <property name="wp.content.resolved" value="${wp.content.resolved}/" override="true" />
+        <resolvepath propertyName="wp.tests_abspath.resolved" file="${wp.tests_abspath}" />
+        <resolvepath propertyName="wp.tests_importer_plugin.resolved" file="${wp.tests_abspath.resolved}/tests/phpunit/data/plugins/wordpress-importer" />
+        <resolvepath propertyName="tests_dir.resolved" file="${tests_dir}" />
+
+        <echo msg="OK! project.dirname: ${project.dirname}" />
+        <echo msg="OK! wp.abspath: ${wp.abspath.resolved}" />
+        <echo msg="OK! wp.content: ${wp.content.resolved}" />
+        <echo msg="OK! wp.tests_abspath: ${wp.tests_abspath.resolved}" />
+    </target>
 
     <target name="lint-php">
         <foreach param="filename" absparam="absfilename" target="lint-php-file">
