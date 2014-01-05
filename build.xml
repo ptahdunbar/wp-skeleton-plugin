@@ -26,7 +26,7 @@
     <property name="java.exec" value="java" />
     <property name="selenium.exec" value="${project.basedir}/selenium-server.jar" />
 
-    <property name="wp.parentdir" value="plugins" />
+    <property name="wp.parentdir" value="mu-plugins" />
     <property name="tests_dir" value="./tests" />
     <property name="selenium.download_url" value="http://selenium.googlecode.com/files/selenium-server-standalone-2.38.0.jar" />
     <property name="phplint.cachefile" value="${project.basedir}/.phplint.cache" />
