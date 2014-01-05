@@ -33,7 +33,7 @@ class ExampleTest extends WP_UnitTestCase
      * @see testRequiredWPOptionsAreSet
      * @return array
      */
-    function getRequiredOptionsProvider()
+    public function getRequiredOptionsProvider()
     {
         return [
             ['timezone_string', 'America/New_York'],
