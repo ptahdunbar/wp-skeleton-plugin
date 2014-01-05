@@ -4,7 +4,7 @@
     "description": "A walking skeleton WordPress plugin. -_O",
     "license": "GPL-2.0+",
 
-    "type": "wordpress-muplugin",
+    "type": "wordpress-plugin",
 
     "keywords": [
         "WordPress", "plugins", "themes", "php", "skeleton"
