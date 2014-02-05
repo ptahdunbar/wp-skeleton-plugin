@@ -15,4 +15,7 @@
  */
 
 /** Load composer */
-require_once dirname(__FILE__) . '/vendor/autoload.php';
+$composer = dirname(__FILE__) . '/vendor/autoload.php';
+if ( file_exists($composer) ) {
+    require_once $composer;
+}
